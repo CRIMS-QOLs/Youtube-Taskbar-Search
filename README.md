@@ -1,4 +1,4 @@
-# YouTube Taskbar Search
+# Youtube search bar to taskbar
 
 A lightweight, seamless Windows desktop application that acts as a quick search bar pinned beautifully underneath your active windows or right above your taskbar. 
 
