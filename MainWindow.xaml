@@ -1,0 +1,103 @@
+<Window x:Class="YoutubeTaskbarSearch.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="YouTube Taskbar Search" 
+        Height="50" Width="380"
+        WindowStyle="None" 
+        ResizeMode="NoResize"
+        ShowInTaskbar="False" 
+        Background="Transparent"
+        AllowsTransparency="True"
+        Loaded="Window_Loaded">
+    
+    <Window.Resources>
+        <!-- Placeholder Style for TextBox -->
+        <Style x:Key="PlaceHolderTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#EEEEEE"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="CaretBrush" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <TextBlock x:Name="PlaceholderText"
+                                       Text="{TemplateBinding Tag}"
+                                       Foreground="#A0A0A0"
+                                       FontSize="15"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0,0,0"
+                                       Visibility="Collapsed">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect ShadowDepth="1" BlurRadius="2" Opacity="0.8" Color="Black"/>
+                                </TextBlock.Effect>
+                            </TextBlock>
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="0"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <!-- Pill-shaped Border with Premium Shadow -->
+    <Border CornerRadius="25" Margin="5" BorderThickness="1">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#2C2C2C" Offset="0.0" />
+                <GradientStop Color="#161616" Offset="1.0" />
+            </LinearGradientBrush>
+        </Border.Background>
+        <Border.BorderBrush>
+            <SolidColorBrush Color="#3A3A3A"/>
+        </Border.BorderBrush>
+        <Border.Effect>
+            <!-- Sleek outer shadow -->
+            <DropShadowEffect ShadowDepth="4" BlurRadius="12" Opacity="0.5" Color="Black"/>
+        </Border.Effect>
+        <Grid MouseLeftButtonDown="MainBorder_MouseLeftButtonDown" Background="Transparent">
+            <!-- Center: SearchBox -->
+            <TextBox x:Name="SearchBox" 
+                     Style="{StaticResource PlaceHolderTextBox}"
+                     Margin="48,0,48,0"
+                     Tag="Type to search youtube..."
+                     VerticalAlignment="Center"
+                     KeyDown="SearchBox_KeyDown" 
+                     ToolTip="Type a search and press Enter" />
+                     
+            <!-- Icon Container (Canvas) stretching over entire Grid layout -->
+            <Canvas x:Name="AnimationCanvas" Background="Transparent" ClipToBounds="True">
+                <!-- Authentic-looking YouTube Vector Icon -->
+                <Viewbox x:Name="IconYoutube" Width="26" Height="26" Canvas.Left="15" Canvas.Top="7" Cursor="Hand" ToolTip="Search YouTube">
+                    <Viewbox.RenderTransform>
+                        <TranslateTransform X="0" />
+                    </Viewbox.RenderTransform>
+                    <Canvas Width="24" Height="24" Background="Transparent">
+                        <Path Fill="#FF0000" Data="M21.58,7.19C21.34,6.31 20.69,5.66 19.81,5.42C18.25,5 12,5 12,5C12,5 5.75,5 4.19,5.42C3.31,5.66 2.66,6.31 2.42,7.19C2,8.75 2,12 2,12C2,12 2,15.25 2.42,16.81C2.66,17.69 3.31,18.34 4.19,18.58C5.75,19 12,19 12,19C12,19 18.25,19 19.81,18.58C20.69,18.34 21.34,17.69 21.58,16.81C22,15.25 22,12 22,12C22,12 22,8.75 21.58,7.19Z"/>
+                        <Path Fill="#FFFFFF" Data="M10,15L15.36,12L10,9V15Z"/>
+                    </Canvas>
+                </Viewbox>
+                
+                <!-- ChatGPT / AI Icon -->
+                <Viewbox x:Name="IconChatGPT" Width="26" Height="26" Canvas.Left="15" Canvas.Top="7" Opacity="0.4" Cursor="Hand" ToolTip="Search ChatGPT">
+                    <Viewbox.RenderTransform>
+                        <TranslateTransform X="314" />
+                    </Viewbox.RenderTransform>
+                    <Canvas Width="24" Height="24" Background="Transparent">
+                        <Path Fill="#FFFFFF" Data="M22.282 9.821a6 6 0 0 0-.516-4.91a6.05 6.05 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a6 6 0 0 0-3.998 2.9a6.05 6.05 0 0 0 .743 7.097a5.98 5.98 0 0 0 .51 4.911a6.05 6.05 0 0 0 6.515 2.9A6 6 0 0 0 13.26 24a6.06 6.06 0 0 0 5.772-4.206a6 6 0 0 0 3.997-2.9a6.06 6.06 0 0 0-.747-7.073M13.26 22.43a4.48 4.48 0 0 1-2.876-1.04l.141-.081l4.779-2.758a.8.8 0 0 0 .392-.681v-6.737l2.02 1.168a.07.07 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494M3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085l4.783 2.759a.77.77 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646M2.34 7.896a4.5 4.5 0 0 1 2.366-1.973V11.6a.77.77 0 0 0 .388.677l5.815 3.354l-2.02 1.168a.08.08 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.08.08 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667m2.01-3.023l-.141-.085l-4.774-2.782a.78.78 0 0 0-.785 0L9.409 9.23V6.897a.07.07 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.8.8 0 0 0-.393.681zm1.097-2.365l2.602-1.5l2.607 1.5v2.999l-2.597 1.5l-2.607-1.5Z" />
+                    </Canvas>
+                </Viewbox>
+                
+                <!-- Overlay Buttons for Click Handling at extreme edges over the canvas -->
+                <Button Width="40" Height="40" Canvas.Left="0" Canvas.Top="0" Opacity="0" Click="LeftIcon_Click" Cursor="Hand" Focusable="False" />
+                <Button Width="40" Height="40" Canvas.Left="330" Canvas.Top="0" Opacity="0" Click="RightIcon_Click" Cursor="Hand" Focusable="False" />
+            </Canvas>
+        </Grid>
+    </Border>
+</Window>
